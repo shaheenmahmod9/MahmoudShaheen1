@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mahmoud Shaheen — Space Story</title>
+<style>
+  :root{--accent:#ff7a00;}
+  html,body{height:100%;margin:0}
+  body{
+    margin: 0;
+    overflow: hidden;
+    background: #000;
+    height: 100vh;
+    font-family: 'Elgharib FS Kofi Ahram', Arial, sans-serif;
+    color: #fff;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stars{position: fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;background: radial-gradient(circle at 50% 50%, #000 0%, #020202 100%);}
+  .star{position:absolute;border-radius:50%;background:rgba(255,255,255,0.95);width:3px;height:3px;animation:twinkle 3s infinite ease-in-out}
+  @keyframes twinkle{0%,100%{opacity:1}50%{opacity:0.25}}
+  .sun {position: absolute;top: -60px;left: 50%;transform: translateX(-50%);width: 100px;height: 100px;border-radius: 50%;
+    background: radial-gradient(circle, #fff 0%, rgba(255,255,255,0) 70%);
+    box-shadow: 0 0 30px 15px rgba(255,255,255,0.8), 0 0 60px 30px rgba(255,255,255,0.5);
+    animation: pulse 4s infinite ease-in-out;z-index: 1;}
+  @keyframes pulse {0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }50% { transform: translateX(-50%) scale(1.1); opacity: 0.9; }}
+  .poll-wrap{position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);z-index: 2;display: flex;flex-direction: column;align-items: center;gap: 14px;padding: 20px;box-sizing: border-box;}
+  .poll{background:rgba(0,0,0,0.66);backdrop-filter:blur(4px);border-radius:14px;padding:18px;width:min(92%,520px);text-align:center;}
+  .poll h2{margin:0 0 8px 0;font-size:26px;font-weight:bold;text-shadow: 0 0 8px rgba(255,255,255,0.7), 0 0 12px var(--accent);direction: rtl;line-height: 1.6;}
+  .poll h2 span.white{color:white;}
+  .poll h2 span.accent{color:var(--accent);}
+  .name{margin-top: 14px;font-size: 36px;font-weight: bold;color: var(--accent);
+    text-shadow: 0 0 5px black, 0 0 10px black, 0 0 15px var(--accent), 0 0 25px var(--accent), 0 0 35px white;
+    animation: glow 2s infinite alternate ease-in-out;}
+  @keyframes glow {0% { text-shadow: 0 0 5px black, 0 0 10px black, 0 0 15px var(--accent), 0 0 25px var(--accent), 0 0 35px white; }
+    100% { text-shadow: 0 0 10px black, 0 0 20px black, 0 0 25px var(--accent), 0 0 35px var(--accent), 0 0 50px white; }}
+  .option{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(90deg,#2b2b2b,#111);border:1px solid rgba(255,255,255,0.03);padding:10px 12px;border-radius:10px;margin-top:8px;cursor:pointer;transition:transform 0.2s ease}
+  .option:hover{transform:translateY(-2px)}
+  .option .label{max-width:85%;text-align:right;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .option .meta{font-size:13px;color:#ffd580;min-width:72px;text-align:left}
+  .extras { margin-top: 12px; display:flex; flex-direction:column; gap:10px; align-items: stretch; }
+  .extras input[type="text"], .extras textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+    color: #fff;
+    font-size: 14px;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+  .extras label { font-size: 13px; color: #ffd580; text-align: right; direction: rtl; }
+  #sendBtn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  @media (max-width:520px){.poll h2{font-size:22px}}
+</style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <div class="poll-wrap">
+    <div class="sun"></div>
+    <div class="poll">
+      <h2><span class="white">لو أُتيحت لنا فرصة أن نحاور الوجود،</span><br><span class="accent">عن ماذا سيكون الحديث؟</span></h2>
+
+      <div class="option" data-id="1"><div class="label">نقد الفلسفة الهيجلية وفلسفة كانط وزراديتشت</div><div class="meta"><span class="count">0</span> • <span class="pct">0%</span></div></div>
+      <div class="option" data-id="2"><div class="label">أحوال الأمة ما بين ذُل وهوان</div><div class="meta"><span class="count">0</span> • <span class="pct">0%</span></div></div>
+      <div class="option" data-id="3"><div class="label">فترة الثورة بأحداثها كما لم تُحكى ونقد التوجّهات الغربية</div><div class="meta"><span class="count">0</span> • <span class="pct">0%</span></div></div>
+      <div class="option" data-id="4"><div class="label">الإقتصاد (تبسيط وتحليل)</div><div class="meta"><span class="count">0</span> • <span class="pct">0%</span></div></div>
+      <div class="option" data-id="5"><div class="label">معلومات تخصصية في الأتمتة الصناعية</div><div class="meta"><span class="count">0</span> • <span class="pct">0%</span></div></div>
+
+      <!-- nickname + suggestion + send button -->
+      <div class="extras">
+        <label for="nickname">اسمك المستعار (اختياري)</label>
+        <input id="nickname" type="text" placeholder="اكتب اسمك المستعار هنا">
+        <label for="suggestion">اقترح موضوع للنقاش (اختياري)</label>
+        <textarea id="suggestion" rows="2" placeholder="اكتب اقتراح موضوع ترغب أن نناقشه"></textarea>
+        <button id="sendBtn">Send</button>
+      </div>
+
+      <div class="name">Mahmoud Shaheen</div>
+    </div>
+  </div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getDatabase, ref, onValue, runTransaction, push } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDHQL0OzHiNuerzO_MaPMpOZLWlBWPO9Lw",
+    authDomain: "mahmoudshaheen-ee8d7.firebaseapp.com",
+    databaseURL: "https://mahmoudshaheen-ee8d7-default-rtdb.firebaseio.com/",
+    projectId: "mahmoudshaheen-ee8d7",
+    storageBucket: "mahmoudshaheen-ee8d7.appspot.com",
+    messagingSenderId: "1012149482101",
+    appId: "1:1012149482101:web:5565e40345dd75e2babe3c",
+    measurementId: "G-754V3G2JLS"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const starsEl = document.getElementById('stars');
+  const STAR_COUNT = Math.round((window.innerWidth * window.innerHeight) / 8000);
+  for(let i=0;i<STAR_COUNT;i++){
+    const s = document.createElement('div'); s.className='star';
+    const size = Math.random()*2 + 1; s.style.width = s.style.height = size + 'px';
+    s.style.left = (Math.random()*100) + 'vw'; s.style.top = (Math.random()*100) + 'vh';
+    s.style.opacity = (0.4 + Math.random()*0.8).toFixed(2);
+    s.style.animationDelay = (Math.random()*3) + 's';
+    s.style.animationDuration = (2 + Math.random()*3) + 's';
+    starsEl.appendChild(s);
+  }
+
+  const optionEls = Array.from(document.querySelectorAll('.option'));
+
+  function render(counts) {
+    const total = Object.values(counts || {}).reduce((a,b)=>a+b,0) || 0;
+    optionEls.forEach(el=>{
+      const id = el.getAttribute('data-id');
+      const c = counts?.[id] || 0;
+      const pct = total? ((c/total)*100).toFixed(1) : '0.0';
+      el.querySelector('.count').textContent = c;
+      el.querySelector('.pct').textContent = pct + '%';
+    });
+  }
+
+  const votesRef = ref(db, 'votes');
+  onValue(votesRef, snapshot => {
+    const counts = snapshot.val() || {1:0,2:0,3:0,4:0,5:0};
+    render(counts);
+  });
+
+  async function vote(id){
+    try {
+      const voteRef = ref(db, 'votes/' + id);
+      await runTransaction(voteRef, current => (current || 0) + 1);
+      const nickname = document.getElementById('nickname').value.trim();
+      const suggestion = document.getElementById('suggestion').value.trim();
+      if (nickname || suggestion) {
+        const submissionsRef = ref(db, 'submissions');
+        await push(submissionsRef, {
+          nickname: nickname || null,
+          suggestion: suggestion || null,
+          choice: id,
+          timestamp: new Date().toISOString()
+        });
+        document.getElementById('suggestion').value = '';
+      }
+    } catch(err) {
+      console.error('vote error', err);
+    }
+  }
+
+  optionEls.forEach(el=>{
+    el.addEventListener('click', ()=> vote(el.getAttribute('data-id')));
+  });
+
+  // زر الإرسال المستقل
+  document.getElementById("sendBtn").addEventListener("click", async () => {
+    const nickname = document.getElementById("nickname").value.trim();
+    const suggestion = document.getElementById("suggestion").value.trim();
+    if (!nickname && !suggestion) {
+      alert("من فضلك اكتب الاسم أو المقترح قبل الإرسال");
+      return;
+    }
+    try {
+      const submissionsRef = ref(db, 'submissions');
+      await push(submissionsRef, {
+        nickname: nickname || null,
+        suggestion: suggestion || null,
+        choice: null,
+        timestamp: new Date().toISOString()
+      });
+      alert("تم إرسال الاقتراح بنجاح!");
+      document.getElementById("suggestion").value = "";
+    } catch (err) {
+      console.error("send error", err);
+      alert("حدث خطأ أثناء الإرسال");
+    }
+  });
+</script>
+</body>
+</html>
